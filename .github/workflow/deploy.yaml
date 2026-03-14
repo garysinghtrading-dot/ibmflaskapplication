@@ -16,14 +16,14 @@ jobs:
       run: |
         curl -fsSL https://clis.cloud.ibm.com/install/linux | sh
 
-    - name: Install Code Engine plugin
+    - name: Install plugins
       run: |
         ibmcloud plugin install code-engine -f
         ibmcloud plugin install container-registry -f
 
     - name: IBM Cloud Login
       run: |
-        ibmcloud login --apikey ${{ secrets.IBM_CLOUD_API_KEY }} -r ${{ secrets.REGION }} -g ${{ secrets.RESOURCE_GROUP }}
+        ibmcloud login --apikey ${{ secrets.IBM_CLOUD_API_KEY }} -r us-south -g Default
 
     - name: Build Docker image
       run: |
@@ -35,14 +35,15 @@ jobs:
 
     - name: Tag image
       run: |
-        docker tag myapp:latest us.icr.io/${{ secrets.ICR_NAMESPACE }}/myapp:latest
+        docker tag myapp:latest us.icr.io/my-private-app-repo/myapp:latest
 
     - name: Push image
       run: |
-        docker push us.icr.io/${{ secrets.ICR_NAMESPACE }}/myapp:latest
+        docker push us.icr.io/my-private-app-repo/myapp:latest
 
     - name: Deploy to Code Engine
       run: |
         ibmcloud ce app update \
-          --name ${{ secrets.CE_APP_NAME }} \
-          --image us.icr.io/${{ secrets.ICR_NAMESPACE }}/myapp:latest
+          --name myapp \
+          --image us.icr.io/my-private-app-repo/myapp:latest
+
