@@ -1,0 +1,48 @@
+name: Deploy to IBM Code Engine
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install IBM Cloud CLI
+      run: |
+        curl -fsSL https://clis.cloud.ibm.com/install/linux | sh
+
+    - name: Install plugins
+      run: |
+        ibmcloud plugin install code-engine -f
+        ibmcloud plugin install container-registry -f
+
+    - name: IBM Cloud Login
+      run: |
+        ibmcloud login --apikey ${{ secrets.IBM_CLOUD_API_KEY }} -r us-south -g Default
+
+    - name: Build Docker image
+      run: |
+        docker build -t myapp:latest .
+
+    - name: Log in to IBM Container Registry
+      run: |
+        ibmcloud cr login
+
+    - name: Tag image
+      run: |
+        docker tag myapp:latest us.icr.io/my-private-app-repo/myapp:latest
+
+    - name: Push image
+      run: |
+        docker push us.icr.io/my-private-app-repo/myapp:latest
+
+    - name: Deploy to Code Engine
+      run: |
+        ibmcloud ce app update \
+          --name myapp \
+          --image us.icr.io/my-private-app-repo/myapp:latest
