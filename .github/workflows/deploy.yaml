@@ -32,6 +32,10 @@ jobs:
     - name: Log in to IBM Container Registry
       run: |
         ibmcloud cr login
+        
+    - name: Select Code Engine project
+      run: |
+        ibmcloud ce project select -n myproj
 
     - name: Tag image
       run: |
