@@ -1,8 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from HandleTradeService import TradeService
+import os
 
 app = Flask(__name__)
-app.secret_key = "change-me-in-production"
 trade_service = TradeService()
 
 STRATEGY_LABELS = {
