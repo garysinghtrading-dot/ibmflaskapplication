@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Trading App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="{{ url_for('index') }}">Home</a>
+        </div>
+
+        <div class="nav-right">
+            <div class="dropdown">
+                <button class="dropbtn">Trade</button>
+                <div class="dropdown-content">
+                    <a href="{{ url_for('trade_stock') }}">Stocks / ETFs</a>
+                    <a href="{{ url_for('trade_options') }}">Options</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

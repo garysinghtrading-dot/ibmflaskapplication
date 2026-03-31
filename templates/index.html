@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Welcome, {{ username }}</h2>
+
+<h3>Account Balance</h3>
+<p><strong>${{ cash_balance }}</strong></p>
+
+<h3>Your Holdings</h3>
+<table>
+    <tr>
+        <th>Ticker</th>
+        <th>Quantity</th>
+        <th>Avg Cost</th>
+    </tr>
+
+    {% for pos in positions %}
+    <tr>
+        <td>{{ pos.ticker }}</td>
+        <td>{{ pos.quantity }}</td>
+        <td>{{ pos.avg_cost }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

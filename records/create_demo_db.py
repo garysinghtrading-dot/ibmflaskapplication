@@ -26,7 +26,8 @@ def create_tables(conn):
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS users (
             user_id INTEGER PRIMARY KEY AUTOINCREMENT,
-            username TEXT UNIQUE NOT NULL
+            username TEXT UNIQUE NOT NULL,
+            cash_balance REAL DEFAULT 30000            
         );
     """)
 

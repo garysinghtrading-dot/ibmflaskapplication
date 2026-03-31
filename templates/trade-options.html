@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Options Trade</h2>
+
+<form method="POST">
+    <label>Symbol:</label>
+    <input type="text" name="symbol" required>
+
+    <label>Strike:</label>
+    <input type="number" step="0.01" name="strike" required>
+
+    <label>Expiration:</label>
+    <input type="date" name="expiration" required>
+
+    <label>Action:</label>
+    <select name="action">
+        <option value="buy_to_open">Buy to Open</option>
+        <option value="sell_to_open">Sell to Open</option>
+        <option value="buy_to_close">Buy to Close</option>
+        <option value="sell_to_close">Sell to Close</option>
+    </select>
+
+    <label>Quantity:</label>
+    <input type="number" name="quantity" required>
+
+    <label>Price:</label>
+    <input type="number" step="0.01" name="price" required>
+
+    <button type="submit">Submit Trade</button>
+</form>
+
+{% endblock %}
