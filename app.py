@@ -167,4 +167,6 @@ def options_trade():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    # Ensure port matches your Dockerfile/Deployment.yaml
+    port = int(os.environ.get("PORT", 8080))
+    app.run(host="0.0.0.0", port=port)
