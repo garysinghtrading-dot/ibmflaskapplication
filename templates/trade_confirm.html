@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Trade Confirmed — TradeDesk</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+</head>
+<body class="bg-light">
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
+    <a class="navbar-brand" href="/">TradeDesk</a>
+    <ul class="navbar-nav">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Trade</a>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="#">Stocks / ETFs</a></li>
+          <li><a class="dropdown-item" href="/trade/options">Options</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="container mt-4" style="max-width: 620px;">
+    <div class="alert alert-success">
+      ✅ Trade submitted successfully!
+    </div>
+
+    <h5 class="mb-3">Trade Summary</h5>
+    <table class="table table-bordered table-sm bg-white">
+      <tbody>
+        <tr><th>Strategy</th><td>{{ trade.strategy }}</td></tr>
+        <tr><th>Ticker</th><td>{{ trade.ticker }}</td></tr>
+        <tr><th>Expiration</th><td>{{ trade.expiration }}</td></tr>
+        <tr><th>Contracts</th><td>{{ trade.contracts }}</td></tr>
+        <tr><th>Net Cost / Credit</th><td>{{ trade.cost_label }}</td></tr>
+        {% if trade.notes %}
+        <tr><th>Notes</th><td>{{ trade.notes }}</td></tr>
+        {% endif %}
+      </tbody>
+    </table>
+
+    {% if trade.legs %}
+    <h6 class="mt-3">Legs</h6>
+    <table class="table table-bordered table-sm bg-white">
+      <thead class="table-dark">
+        <tr>
+          <th>Side</th><th>Type</th><th>Strike</th><th>Premium</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for leg in trade.legs %}
+        <tr>
+          <td>{{ leg.side }}</td>
+          <td>{{ leg.option_type }}</td>
+          <td>${{ leg.strike }}</td>
+          <td>${{ leg.premium }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% endif %}
+
+    <div class="mt-3">
+      <p class="text-muted">Updated Cash Balance: <strong>${{ "{:,.2f}".format(new_cash_balance) }}</strong></p>
+    </div>
+
+    <a href="/" class="btn btn-dark">Back to Dashboard</a>
+    <a href="/trade/options" class="btn btn-outline-secondary ms-2">New Options Trade</a>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
