@@ -1,26 +1,37 @@
-{% extends "base.html" %}
-{% block content %}
-
-<h2>Welcome, {{ username }}</h2>
-
-<h3>Account Balance</h3>
-<p><strong>${{ cash_balance }}</strong></p>
-
-<h3>Your Holdings</h3>
-<table>
-    <tr>
-        <th>Ticker</th>
-        <th>Quantity</th>
-        <th>Avg Cost</th>
-    </tr>
-
-    {% for pos in positions %}
-    <tr>
-        <td>{{ pos.ticker }}</td>
-        <td>{{ pos.quantity }}</td>
-        <td>{{ pos.avg_cost }}</td>
-    </tr>
-    {% endfor %}
-</table>
-
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Jagpal Holdings Company | Demo Trading APP</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+</head>
+<body>
+ 
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
+    <a class="navbar-brand" href="/">Jagpal Holdings</a>
+    <ul class="navbar-nav">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+          Trade
+        </a>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="#">Stocks / ETFs</a></li>
+          <li><a class="dropdown-item" href="#">Options</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+ 
+  <!-- Main -->
+  <div class="container mt-5">
+    <h2>Hello, {{ user['username'] | capitalize }}!</h2>
+    <hr/>
+    <h5 class="text-muted">Account Balance</h5>
+    <h3>${{ "{:,.2f}".format(user['cash_balance']) }}</h3>
+  </div>
+ 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
