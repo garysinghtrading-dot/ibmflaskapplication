@@ -1,9 +1,10 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, redirect, request, redirect, session, url_for
 from HandleTradeService import TradeService
 import os
 
 app = Flask(__name__)
 trade_service = TradeService()
+app.secret_key = "demo-test" # TEMPORARY PLACE HOLDER
 
 STRATEGY_LABELS = {
     "single":       "Single Leg (Call / Put)",
@@ -19,7 +20,7 @@ def _get_current_user():
     username = session.get("username", "demo")
     user_id  = trade_service.get_user_id(username)
     if user_id is None:
-        return None, 30000.00, username
+        return None, 0.00, username
     return user_id, trade_service.get_cash_balance(user_id), username
 
 
