@@ -6,6 +6,8 @@ app = Flask(__name__)
 trade_service = TradeService()
 app.secret_key = "demo-test" # TEMPORARY PLACE HOLDER
 
+securities_inList = ('CRM')
+
 STRATEGY_LABELS = {
     "single":       "Single Leg (Call / Put)",
     "vertical":     "Vertical Spread",
