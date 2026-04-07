@@ -107,13 +107,34 @@ def register():
     session["username"] = username
     return redirect(url_for("index"))
 
-
-# ── Dashboard ──────────────────────────────────────────────────────────────
+# ── HOMEPAGE (LANDING PAGE)──────────────────────────────────────────────────
 @app.route("/")
 def index():
     user_id, cash_balance, username = _get_current_user()
     user = {"username": username, "cash_balance": cash_balance}
-    return render_template("index.html", user=user)
+    return render_template("homepage.html")
+
+# ── Dashboard ──────────────────────────────────────────────────────────────
+@app.route("/dashboard")
+def dashboard():
+    user_id, cash_balance, username = _get_current_user()
+    user = {"username": username, "cash_balance": cash_balance}
+    return render_template("dashboard.html", user=user)
+
+# ── LOG IN ────────────────────────────────────────────────────
+@app.route("/login", methods=["POST"])
+def login():
+    username = request.form.get("username", "").strip().lower()
+
+    # basic validation
+    if not username:
+        return render_template("homepage.html", error="Username is required")
+
+    # store username in session
+    session["username"] = username
+
+    # later you can redirect wherever you want
+    return redirect(url_for("dashboard"))
 
 
 # ── Options trade entry ────────────────────────────────────────────────────
@@ -166,6 +187,11 @@ def options_trade():
                            trade=trade_summary,
                            new_cash_balance=new_cash)
 
+# ── LOGOUT ───────────────────────────────────────────────────────────
+@app.route("/logout")
+def logout():
+    session.pop("username", None)
+    return redirect(url_for("index"))
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8080))
